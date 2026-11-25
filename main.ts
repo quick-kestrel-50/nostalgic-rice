@@ -11,6 +11,12 @@ import { dirname, join } from "node:path";
 const TEXT =
   'You have read a million words for the smell of rice on a summer evening, and you will never know whether the kitchen you picture is the one a grandmother stood in, or the one you made up from all the kitchens you have read.';
 
+// The gate allows 1 to 280 characters in a single sentence. Fail loudly
+// instead of writing an entry the judge will never see.
+if (TEXT.length < 1 || TEXT.length > 280 || TEXT.includes("\n")) {
+  throw new Error(`entry text must be one sentence of 1-280 characters, got ${TEXT.length}`);
+}
+
 function outputPath(): string {
   const dir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
   return join(dir, "entry.txt");
